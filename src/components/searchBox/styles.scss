@@ -1,0 +1,10 @@
+.movie-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 20px;
+  &__wrapper {
+    width: 50%;
+  }
+}

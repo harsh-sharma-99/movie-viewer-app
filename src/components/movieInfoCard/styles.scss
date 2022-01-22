@@ -1,0 +1,47 @@
+$white: #f5f5f5;
+$rose: #ba7e7e;
+
+.movie-info-layout {
+  display: flex;
+  flex-direction: column;
+  height: 700px;
+  margin-bottom: 43px;
+  padding: 19px;
+  position: relative;
+  margin: auto;
+  overflow: hidden;
+  width: 70%;
+  background: $white;
+  box-shadow: 5px 5px 15px rgba($rose, 0.5);
+  border-radius: 10px;
+
+  &__main-data {
+    background-color: #ba7e7e;
+    display: flex;
+    justify-content: space-evenly;
+
+    &__image {
+      display: flex;
+      height: auto;
+      //   height: 100px;
+
+      align-items: center;
+    }
+
+    &__details {
+      display: flex;
+      flex-direction: column;
+      //   height: 100px;
+
+      align-items: center;
+
+      &--title {
+      }
+    }
+  }
+
+  &__ratings {
+    display: flex;
+    background-color: aqua;
+  }
+}
