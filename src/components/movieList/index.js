@@ -4,22 +4,20 @@ import "./styles.scss";
 import { PulseLoader } from "react-spinners";
 import MovieCard from "./../movieCard/index";
 import { Link } from "react-router-dom";
+import SearchBox from "./../searchBox/index";
 
-const MovieList = () => {
+const MovieList = ({ searchData, search, setSearch }) => {
   const [data, setData] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
 
   const fetchMovieList = () => {
     if (page >= 1) {
-      setIsLoading(true);
       axios
         .get(`http://www.omdbapi.com/?s=batman&page=${page}&apikey=e61470f7`)
         .then((response) => setData(response?.data))
         .catch((error) => {
           console.error("There was an error!", error);
         });
-      setIsLoading(false);
     }
   };
 
@@ -33,9 +31,9 @@ const MovieList = () => {
 
   return (
     <div className="movie-list">
-      <h1>Movie List</h1>
+      <SearchBox data={data} search={search} setSearch={setSearch} />
       <div className="movie-list--container">
-        {!data && isLoading ? (
+        {!data ? (
           <PulseLoader size={20} color="#4CDBE5" loading />
         ) : (
           data?.Search?.map((movie) => {

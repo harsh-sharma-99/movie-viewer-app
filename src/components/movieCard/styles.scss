@@ -1,11 +1,44 @@
 .card {
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   width: 300px;
-  height: 300px;
+  height: 365px;
   margin: 20px;
 }
 
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+  img {
+    height: 300px;
+    width: 250px;
+    border-radius: 10px;
+  }
+}
+
+.card__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  span {
+    text-decoration: none;
+  }
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 600;
 }

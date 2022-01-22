@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./global.scss";
 import MovieList from "./components/movieList";
-import SearchBox from "./components/searchBox/index";
 import { Routes, Route } from "react-router-dom";
 import MovieInfoCard from "./components/movieInfoCard";
 import Header from "./components/header";
@@ -28,9 +27,18 @@ function App() {
   return (
     <div className={rootClassName}>
       <Header />
-      <SearchBox data={data} search={search} setSearch={setSearch} />
+
       <Routes>
-        <Route path="/" element={<MovieList data={data} />}></Route>
+        <Route
+          path="/"
+          element={
+            <MovieList
+              searchData={data}
+              search={search}
+              setSearch={setSearch}
+            />
+          }
+        ></Route>
         <Route path="/movie/:id" element={<MovieInfoCard />}></Route>
       </Routes>
     </div>

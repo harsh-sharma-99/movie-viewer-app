@@ -5,11 +5,9 @@ import { useNavigate } from "react-router";
 import "./styles.scss";
 
 const SearchBox = ({ search, setSearch, data }) => {
-  const [options, setOptions] = useState([
-    { value: "tt0096895", label: "Batman" },
-    { value: "tt0103776", label: "Batman Returns" },
-  ]);
   const [suggestion, setSuggestion] = useState([]);
+  const [options, setOptions] = useState(suggestion);
+  const [finalOption, setFinalOption] = useState([]);
   const rootClassName = "movie-search";
   let navigate = useNavigate();
 
@@ -24,12 +22,13 @@ const SearchBox = ({ search, setSearch, data }) => {
       };
     });
 
-    setOptions((prev) => [prev, optionArray]);
+    optionArray && setOptions(optionArray);
   }, [data]);
 
   useEffect(() => {
-    localStorage.setItem("suggestion", JSON.stringify(suggestion));
-  }, [suggestion]);
+    // localStorage.setItem("suggestion", JSON.stringify(suggestion));
+    setFinalOption([...suggestion, ...options]);
+  }, [data, suggestion]);
 
   function handleInput(e) {
     setSearch(e);
@@ -41,7 +40,7 @@ const SearchBox = ({ search, setSearch, data }) => {
     navigate(`./movie/${e.value}`);
   }
   const optimisedSearch = debounce((e) => handleInput(e));
-  console.log(suggestion);
+
   return (
     <div className={rootClassName}>
       <div className={`${rootClassName}__wrapper`}>
@@ -50,9 +49,9 @@ const SearchBox = ({ search, setSearch, data }) => {
             setinputValue(e);
             optimisedSearch(e);
           }}
-          inputValue={inputValue}
+          value={inputValue}
           onChange={(e) => handleSelectedValue(e)}
-          options={options}
+          options={finalOption}
         />
       </div>
     </div>
