@@ -13,7 +13,6 @@ function App() {
 
   const getSearchData = async () => {
     const response = await fetchData(search);
-    console.log(response);
     setData(response?.data);
   };
   useEffect(() => {

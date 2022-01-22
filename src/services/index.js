@@ -9,9 +9,11 @@ export const fetchData = (search) => {
     });
 };
 
-export const fetchMovieList = (page = 1) => {
+export const fetchMovieList = (page = 1, search) => {
+  let flag = search ? search : "batman";
+  console.log(flag);
   return axios
-    .get(`http://www.omdbapi.com/?s=batman&page=${page}&apikey=e61470f7`)
+    .get(`http://www.omdbapi.com/?s=${flag}&page=${page}&apikey=e61470f7`)
     .then((response) => response)
     .catch((error) => {
       console.error("There was an error!", error);
