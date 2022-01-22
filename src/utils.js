@@ -8,5 +8,3 @@ export function debounce(func, timeout = 400) {
     }, timeout);
   };
 }
-
-// export default {};

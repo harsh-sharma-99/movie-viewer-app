@@ -1,45 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { debounce } from "../../utils";
-import { useNavigate } from "react-router";
 import "./styles.scss";
 
-const SearchBox = ({ search, setSearch, data }) => {
-  const [suggestion, setSuggestion] = useState([]);
-  const [options, setOptions] = useState(suggestion);
-  const [finalOption, setFinalOption] = useState([]);
+const SearchBox = ({ search, setSearch, searchData }) => {
+  const [options, setOptions] = useState([]);
+  const [load, setLoad] = useState(false);
   const rootClassName = "movie-search";
-  let navigate = useNavigate();
-
   const [inputValue, setinputValue] = useState("");
 
   //for updating options in select
   useEffect(() => {
-    let optionArray = data?.Search?.map((movie) => {
+    let optionArray = searchData?.Search?.map((movie) => {
       return {
         value: movie.imdbID,
         label: movie.Title,
       };
     });
-
-    optionArray && setOptions(optionArray);
-  }, [data]);
-
-  useEffect(() => {
-    // localStorage.setItem("suggestion", JSON.stringify(suggestion));
-    setFinalOption([...suggestion, ...options]);
-  }, [data, suggestion]);
+    if (inputValue === "") {
+      setOptions([]);
+    } else {
+      optionArray && setOptions(optionArray);
+    }
+  }, [inputValue, searchData]);
 
   function handleInput(e) {
     setSearch(e);
+    setLoad(false);
   }
 
-  function handleSelectedValue(e) {
-    setSuggestion((prev) => [...prev, e]);
-
-    navigate(`./movie/${e.value}`);
-  }
-  const optimisedSearch = debounce((e) => handleInput(e));
+  function handleSelectedValue(e) {}
+  const optimisedSearch = debounce((e) => handleInput(e), 1000);
 
   return (
     <div className={rootClassName}>
@@ -47,11 +38,13 @@ const SearchBox = ({ search, setSearch, data }) => {
         <Select
           onInputChange={(e) => {
             setinputValue(e);
+            setLoad(true);
             optimisedSearch(e);
           }}
-          value={inputValue}
           onChange={(e) => handleSelectedValue(e)}
-          options={finalOption}
+          options={options}
+          isLoading={load}
+          isClearable="true"
         />
       </div>
     </div>
