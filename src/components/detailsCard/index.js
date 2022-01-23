@@ -12,11 +12,13 @@ const DetailsCard = ({
   awards,
   rating,
   externalRatings,
+  runTime,
 }) => {
   return (
     <div className={rootClassName}>
       <div className={`${rootClassName}__details`}>
         <span className={`${rootClassName}__label`}>Rating:</span>
+        {rating === "N/A"}
         <Rating
           title={rating}
           name="read-only"
@@ -40,8 +42,8 @@ const DetailsCard = ({
       </div>
 
       <div className={`${rootClassName}__details`}>
-        <span className={`${rootClassName}__label`}>Release Date:</span>
-        <span className={`${rootClassName}__value`}>{releaseDate}</span>
+        <span className={`${rootClassName}__label`}>Run Time:</span>
+        <span className={`${rootClassName}__value`}>{runTime}</span>
       </div>
 
       <div className={`${rootClassName}__details`}>
@@ -53,19 +55,20 @@ const DetailsCard = ({
         <span className={`${rootClassName}__label`}>Awards:</span>
         <span className={`${rootClassName}__value`}>{awards}</span>
       </div>
-
-      <div className={`${rootClassName}__reviews`}>
-        External Reviews:
-        <ul>
-          {externalRatings?.map((rating) => {
-            return (
-              <li className={`${rootClassName}__bullets`}>
-                {rating.Source}: {rating.Value}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      {externalRatings !== "N/A" && (
+        <div className={`${rootClassName}__reviews`}>
+          External Reviews:
+          <ul>
+            {externalRatings?.map((rating, idx) => {
+              return (
+                <li key={idx} className={`${rootClassName}__bullets`}>
+                  {rating.Source}: {rating.Value}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

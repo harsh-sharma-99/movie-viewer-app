@@ -16,12 +16,13 @@ const MovieList = ({
   setPage,
   apiStatus,
 }) => {
+  const paginationCount = searchData?.totalResults ?? page;
   const getMovieLists = () => {
     if (apiStatus) {
       return <CircularProgress />;
     }
     if (!apiStatus && searchData?.Response === "False") {
-      return <h1>No Data Found</h1>;
+      return <h1>Oops! No Data Found</h1>;
     }
 
     if (searchData) {
@@ -37,8 +38,6 @@ const MovieList = ({
       ));
     }
   };
-
-  const paginationCount = searchData?.totalResults ?? page;
 
   return (
     <div className={rootClassName}>
