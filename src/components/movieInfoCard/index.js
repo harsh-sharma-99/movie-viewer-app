@@ -13,7 +13,7 @@ const MovieInfoCard = () => {
   const fetchData = useCallback(() => {
     if (id) {
       axios
-        .get(`http://www.omdbapi.com/?i=${id}&apikey=e61470f7`)
+        .get(`https://www.omdbapi.com/?i=${id}&apikey=e61470f7`)
         .then((response) => setData(response?.data))
         .catch((error) => {
           console.error("There was an error!", error);

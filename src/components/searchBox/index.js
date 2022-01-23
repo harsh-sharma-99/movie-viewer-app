@@ -8,9 +8,6 @@ const rootClassName = "movie-search";
 const SearchBox = ({ search, setSearch, searchData, apiStatus }) => {
   const [options, setOptions] = useState([]);
 
-  useEffect(() => {
-    console.log(searchData);
-  }, [searchData]);
   //for updating options in select
   useEffect(() => {
     let optionArray = searchData?.Search?.map((movie) => {
