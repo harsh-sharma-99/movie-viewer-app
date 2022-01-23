@@ -63,7 +63,7 @@ const MovieInfoCard = () => {
         </div>
       </div>
       <div className={rootClassNameThree}>
-        {data?.Ratings.map((rating) => {
+        {data?.Ratings?.map((rating) => {
           return (
             <div className={`${rootClassNameThree}__title`}>
               {rating.Source}
