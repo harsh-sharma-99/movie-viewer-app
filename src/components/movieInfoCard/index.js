@@ -1,20 +1,16 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./styles.scss";
 import { useParams } from "react-router-dom";
+import DetailsCard from "../detailsCard";
+
+const rootClassName = "movie-info-details-card";
 
 const MovieInfoCard = () => {
   const [data, setData] = useState("");
-  const rootClassName = "movie-info-layout";
-  const rootClassNameTwo = "movie-info-layout__main-data";
-  const rootClassNameThree = "movie-info-layout__ratings";
-  let { id } = useParams();
+  const { id } = useParams();
 
-  useEffect(() => {
-    fetchData();
-  }, [id]);
-
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     if (id) {
       axios
         .get(`http://www.omdbapi.com/?i=${id}&apikey=e61470f7`)
@@ -23,53 +19,34 @@ const MovieInfoCard = () => {
           console.error("There was an error!", error);
         });
     }
-  };
-  console.log(data);
+  }, [id]);
+
+  useEffect(() => {
+    fetchData();
+  }, [id, fetchData]);
+
   return (
     <div className={rootClassName}>
-      <div className={rootClassNameTwo}>
-        <div className={`${rootClassNameTwo}__image`}>
-          <img src={data.Poster} alt="movie display img" />
+      <div className={`${rootClassName}__details`}>
+        <div className={`${rootClassName}__image`}>
+          <img
+            className={`${rootClassName}__image-base`}
+            src={data.Poster}
+            alt="movie display img"
+          />
         </div>
-        <div className={`${rootClassNameTwo}__details`}>
-          <div className={`${rootClassNameTwo}__details--label`}>
-            <span>Title:</span>
-            {data.Title}
-          </div>
-          <div className={`${rootClassNameTwo}__details--label`}>
-            <span>Director:</span>
-            {data.Director}
-          </div>
-          <div className={`${rootClassNameTwo}__details--label`}>
-            <span>Release Date:</span>
-            {data.Released}
-          </div>
-          <div className={`${rootClassNameTwo}__details--label`}>
-            <span>Genre:</span>
-            {data.Genre}
-          </div>
-          <div className={`${rootClassNameTwo}__details--label`}>
-            <span>Actors:</span>
-            {data.Actors}
-          </div>
-          <div className={`${rootClassNameTwo}__details--label`}>
-            <span>Awards</span>
-            {data.Awards}
-          </div>
-          <div className={`${rootClassNameTwo}__details--label`}>
-            <span>IMDB rating:</span>
-            {data.imdbRating}
-          </div>
+        <div className={`${rootClassName}__details-panel`}>
+          <div className={`${rootClassName}__title`}>{data.Title}</div>
+          <DetailsCard
+            director={data.Director}
+            releaseDate={data.Released}
+            genre={data.Genre}
+            actors={data.Actors}
+            awards={data.Awards}
+            rating={data.imdbRating}
+            externalRatings={data?.Ratings}
+          />
         </div>
-      </div>
-      <div className={rootClassNameThree}>
-        {data?.Ratings?.map((rating) => {
-          return (
-            <div className={`${rootClassNameThree}__title`}>
-              {rating.Source}
-            </div>
-          );
-        })}
       </div>
     </div>
   );

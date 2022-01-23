@@ -1,14 +1,22 @@
 import React from "react";
 import "./styles.scss";
+import NoImg from "../../assets/images.png";
+
+const rootClassName = "movie-viewer-card";
 
 const MovieCard = ({ movie }) => {
+  console.log(movie.Poster, "poster");
   return (
-    <div className="card">
-      <div className="card__image">
-        <img src={movie.Poster} alt="display pic" />
+    <div className={rootClassName}>
+      <div className={`${rootClassName}__image`}>
+        {movie.Poster !== "N/A" ? (
+          <img src={movie.Poster} alt="display pic" />
+        ) : (
+          <img src={NoImg} alt="no pic" />
+        )}
       </div>
-      <div className="card__title">
-        <span>{movie.Title}</span>
+      <div className={`${rootClassName}__title`} title={movie.Title}>
+        {movie.Title}
       </div>
     </div>
   );

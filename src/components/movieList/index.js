@@ -1,63 +1,64 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./styles.scss";
-import { PulseLoader } from "react-spinners";
 import MovieCard from "./../movieCard/index";
 import { Link } from "react-router-dom";
 import SearchBox from "./../searchBox/index";
-import { fetchMovieList } from "../../services";
+import Pagination from "@mui/material/Pagination";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const MovieList = ({ searchData, search, setSearch }) => {
-  const [data, setData] = useState("");
-  const [page, setPage] = useState(1);
+const rootClassName = "movie-list";
 
-  const fetchList = async () => {
-    const response = await fetchMovieList(page, search, searchData);
-    setData(response?.data);
-  };
-
-  useEffect(() => {
-    fetchList();
-  }, []);
-
-  useEffect(() => {
-    if (page >= 1) {
-      fetchList();
-    } else if (page < 1) {
-      setPage(1);
-    }
-  }, [page, search]);
-
+const MovieList = ({
+  searchData,
+  search,
+  setSearch,
+  page,
+  setPage,
+  apiStatus,
+}) => {
   const getMovieLists = () => {
-    if (!data) {
-      return <PulseLoader size={20} color="#4CDBE5" loading />;
-    } else if (data.Response === "True") {
-      return data?.Search?.map((movie) => {
-        return (
-          <Link
-            key={movie.imdbID}
-            target="_blank"
-            rel="noopener noreferrer"
-            to={`/movie/${movie.imdbID}`}
-          >
-            <MovieCard movie={movie} />
-          </Link>
-        );
-      });
-    } else if (search !== "" && data.Response === "False") {
+    if (apiStatus) {
+      return <CircularProgress />;
+    }
+    if (!apiStatus && searchData?.Response === "False") {
       return <h1>No Data Found</h1>;
     }
+
+    if (searchData) {
+      return searchData?.Search?.map((movie) => (
+        <Link
+          key={movie.imdbID}
+          target="_blank"
+          rel="noopener noreferrer"
+          to={`/movie/${movie.imdbID}`}
+        >
+          <MovieCard movie={movie} />
+        </Link>
+      ));
+    }
   };
 
+  const paginationCount = searchData?.totalResults ?? page;
+
   return (
-    <div className="movie-list">
+    <div className={rootClassName}>
       <SearchBox
         searchData={searchData}
         search={search}
         setSearch={setSearch}
+        apiStatus={apiStatus}
       />
-      <div className="movie-list--container">{getMovieLists()}</div>
-      <button onClick={() => setPage((page) => page + 1)}>NextPage</button>
-      <button onClick={() => setPage((page) => page - 1)}>PrevPage</button>
+      <div className={`${rootClassName}__container`}>{getMovieLists()} </div>
+      <div className={`${rootClassName}__pagination`}>
+        <Pagination
+          count={parseInt(paginationCount, 10)}
+          variant="outlined"
+          shape="rounded"
+          size="large"
+          className={`${rootClassName}__pagination-root`}
+          onChange={(...args) => setPage(args[1])}
+        />
+      </div>
     </div>
   );
 };

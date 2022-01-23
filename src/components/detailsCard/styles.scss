@@ -1,0 +1,30 @@
+.movie-viewer-details-card {
+  background-color: #35858b;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: white;
+
+  &__details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__label {
+    font-size: 14px;
+    margin-right: 0.5rem;
+    font-weight: 700;
+    width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__value {
+    font-size: 16px;
+    width: 75%;
+    font-weight: 200;
+    // color: #072227;
+  }
+}

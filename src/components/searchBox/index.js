@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { debounce } from "../../utils";
+import { INITIAL_SEARCH_VALUE } from "../../constants";
 import "./styles.scss";
 
-const SearchBox = ({ search, setSearch, searchData }) => {
-  const [options, setOptions] = useState([]);
-  const [load, setLoad] = useState(false);
-  const rootClassName = "movie-search";
-  const [inputValue, setInputValue] = useState("");
+const rootClassName = "movie-search";
 
-  // useEffect(() => {
-  //   console.log(searchData);
-  // }, [searchData]);
+const SearchBox = ({ search, setSearch, searchData, apiStatus }) => {
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    console.log(searchData);
+  }, [searchData]);
   //for updating options in select
   useEffect(() => {
     let optionArray = searchData?.Search?.map((movie) => {
@@ -20,41 +19,32 @@ const SearchBox = ({ search, setSearch, searchData }) => {
         label: movie.Title,
       };
     });
-    if (inputValue === "") {
+    if (search === "") {
       setOptions([]);
     } else {
       optionArray && setOptions(optionArray);
     }
-  }, [inputValue, searchData]);
+  }, [search, searchData]);
 
-  function handleInput(e) {
-    setLoad(false);
-    setSearch(e);
+  function handleSelectedValue(e) {
+    setSearch(e?.label ?? INITIAL_SEARCH_VALUE);
   }
 
-  function handleSelectedValue(e) {}
+  const handleSelectInput = (e, action) => {
+    if (action?.action !== "input-blur" && action?.action !== "menu-close") {
+      setSearch(e);
+    }
+  };
 
-  const optimisedSearch = debounce(handleInput, 1000);
   return (
     <div className={rootClassName}>
       <div className={`${rootClassName}__wrapper`}>
         <Select
           placeholder="Search your favourite movie..."
           options={options}
-          isLoading={load}
+          isLoading={apiStatus}
           isClearable="true"
-          inputValue={inputValue}
-          onInputChange={(e, action) => {
-            optimisedSearch(e);
-            setLoad(true);
-            if (
-              action?.action !== "input-blur" &&
-              action?.action !== "menu-close"
-            ) {
-              setInputValue(e);
-              setLoad(true);
-            }
-          }}
+          onInputChange={(e, action) => handleSelectInput(e, action)}
           onChange={(e) => handleSelectedValue(e)}
         />
       </div>

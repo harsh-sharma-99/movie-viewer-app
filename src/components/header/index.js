@@ -1,16 +1,13 @@
 import React from "react";
 import "./styles.scss";
 
+const rootClassName = "movie-header";
+
 const Header = () => {
-  const rootClassName = "movie-header";
   return (
     <div className={rootClassName}>
       <h1>
-        M
-        <span role="img" aria-label="coder">
-          🎥
-        </span>
-        vieFinder
+        Find <span className={`${rootClassName}__alt`}>Movies!</span>
       </h1>
     </div>
   );
