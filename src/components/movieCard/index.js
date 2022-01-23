@@ -5,7 +5,6 @@ import NoImg from "../../assets/images.png";
 const rootClassName = "movie-viewer-card";
 
 const MovieCard = ({ movie }) => {
-  console.log(movie.Poster, "poster");
   return (
     <div className={rootClassName}>
       <div className={`${rootClassName}__image`}>
