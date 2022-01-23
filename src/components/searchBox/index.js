@@ -7,8 +7,11 @@ const SearchBox = ({ search, setSearch, searchData }) => {
   const [options, setOptions] = useState([]);
   const [load, setLoad] = useState(false);
   const rootClassName = "movie-search";
-  const [inputValue, setinputValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
+  // useEffect(() => {
+  //   console.log(searchData);
+  // }, [searchData]);
   //for updating options in select
   useEffect(() => {
     let optionArray = searchData?.Search?.map((movie) => {
@@ -25,26 +28,34 @@ const SearchBox = ({ search, setSearch, searchData }) => {
   }, [inputValue, searchData]);
 
   function handleInput(e) {
-    setSearch(e);
     setLoad(false);
+    setSearch(e);
   }
 
   function handleSelectedValue(e) {}
-  const optimisedSearch = debounce((e) => handleInput(e), 1000);
 
+  const optimisedSearch = debounce(handleInput, 1000);
   return (
     <div className={rootClassName}>
       <div className={`${rootClassName}__wrapper`}>
         <Select
-          onInputChange={(e) => {
-            setinputValue(e);
-            setLoad(true);
-            optimisedSearch(e);
-          }}
-          onChange={(e) => handleSelectedValue(e)}
+          placeholder="Search your favourite movie..."
           options={options}
           isLoading={load}
           isClearable="true"
+          inputValue={inputValue}
+          onInputChange={(e, action) => {
+            optimisedSearch(e);
+            setLoad(true);
+            if (
+              action?.action !== "input-blur" &&
+              action?.action !== "menu-close"
+            ) {
+              setInputValue(e);
+              setLoad(true);
+            }
+          }}
+          onChange={(e) => handleSelectedValue(e)}
         />
       </div>
     </div>

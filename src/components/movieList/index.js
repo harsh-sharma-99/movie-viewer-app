@@ -9,11 +9,9 @@ import { fetchMovieList } from "../../services";
 const MovieList = ({ searchData, search, setSearch }) => {
   const [data, setData] = useState("");
   const [page, setPage] = useState(1);
-  const [searchFlag, setSearchFlag] = useState(false);
 
   const fetchList = async () => {
-    const response = await fetchMovieList(page, search);
-    console.log(response);
+    const response = await fetchMovieList(page, search, searchData);
     setData(response?.data);
   };
 
@@ -30,11 +28,9 @@ const MovieList = ({ searchData, search, setSearch }) => {
   }, [page, search]);
 
   const getMovieLists = () => {
-    // console.log(search);
-    // console.log(data, "data");
     if (!data) {
       return <PulseLoader size={20} color="#4CDBE5" loading />;
-    } else if (data) {
+    } else if (data.Response === "True") {
       return data?.Search?.map((movie) => {
         return (
           <Link
@@ -47,7 +43,7 @@ const MovieList = ({ searchData, search, setSearch }) => {
           </Link>
         );
       });
-    } else if (searchData && search) {
+    } else if (search !== "" && data.Response === "False") {
       return <h1>No Data Found</h1>;
     }
   };

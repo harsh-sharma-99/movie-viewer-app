@@ -24,45 +24,53 @@ const MovieInfoCard = () => {
         });
     }
   };
-
+  console.log(data);
   return (
     <div className={rootClassName}>
       <div className={rootClassNameTwo}>
         <div className={`${rootClassNameTwo}__image`}>
           <img src={data.Poster} alt="movie display img" />
         </div>
-        <div className={`${rootClassNameTwo}__details-label`}>
-          <div className={`${rootClassNameTwo}__details--title`}>
+        <div className={`${rootClassNameTwo}__details`}>
+          <div className={`${rootClassNameTwo}__details--label`}>
             <span>Title:</span>
             {data.Title}
           </div>
-          <div className={`${rootClassNameTwo}__details--director`}>
-            <span>Director</span>
+          <div className={`${rootClassNameTwo}__details--label`}>
+            <span>Director:</span>
             {data.Director}
           </div>
-          <div className={`${rootClassNameTwo}__details--date`}>
+          <div className={`${rootClassNameTwo}__details--label`}>
             <span>Release Date:</span>
             {data.Released}
           </div>
-          <div className={`${rootClassNameTwo}__details--Genre`}>
+          <div className={`${rootClassNameTwo}__details--label`}>
             <span>Genre:</span>
             {data.Genre}
           </div>
-          <div>
+          <div className={`${rootClassNameTwo}__details--label`}>
             <span>Actors:</span>
             {data.Actors}
           </div>
-          <div>
+          <div className={`${rootClassNameTwo}__details--label`}>
             <span>Awards</span>
             {data.Awards}
           </div>
-          <div>
+          <div className={`${rootClassNameTwo}__details--label`}>
             <span>IMDB rating:</span>
-            {data.imdbID}
+            {data.imdbRating}
           </div>
         </div>
       </div>
-      <div className={rootClassNameThree}>Ratings</div>
+      <div className={rootClassNameThree}>
+        {data?.Ratings.map((rating) => {
+          return (
+            <div className={`${rootClassNameThree}__title`}>
+              {rating.Source}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

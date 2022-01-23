@@ -9,9 +9,15 @@ export const fetchData = (search) => {
     });
 };
 
-export const fetchMovieList = (page = 1, search) => {
-  let flag = search ? search : "batman";
-  console.log(flag);
+export const fetchMovieList = (page = 1, search, searchData) => {
+  let flag;
+  if (searchData.Response === "True") {
+    flag = search;
+  } else if (search !== "" && searchData.Response === "False") {
+    flag = search;
+  } else if (search === "") {
+    flag = "batman";
+  }
   return axios
     .get(`http://www.omdbapi.com/?s=${flag}&page=${page}&apikey=e61470f7`)
     .then((response) => response)
