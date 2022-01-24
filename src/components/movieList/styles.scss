@@ -14,21 +14,6 @@
     padding: 20px;
   }
 
-  &__list-cards-wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-
-  &__list-wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-
   &__pagination {
     margin: 1rem 0;
     color: white;

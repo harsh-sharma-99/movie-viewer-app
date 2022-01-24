@@ -28,32 +28,16 @@ const MovieList = ({
     }
 
     if (searchData) {
-      return (
-        <div className={`${rootClassName}__list-wrapper`}>
-          <div className={`${rootClassName}__list-cards-wrapper`}>
-            {searchData?.Search?.map((movie) => (
-              <Link
-                key={movie.imdbID}
-                target="_blank"
-                rel="noopener noreferrer"
-                to={`/movie/${movie.imdbID}`}
-              >
-                <MovieCard movie={movie} />
-              </Link>
-            ))}
-          </div>
-          <div className={`${rootClassName}__pagination`}>
-            <Pagination
-              count={parseInt(paginationCount, 10)}
-              variant="outlined"
-              shape="rounded"
-              size="large"
-              className={`${rootClassName}__pagination-root`}
-              onChange={(...args) => setPage(args[1])}
-            />
-          </div>
-        </div>
-      );
+      return searchData?.Search?.map((movie) => (
+        <Link
+          key={movie.imdbID}
+          target="_blank"
+          rel="noopener noreferrer"
+          to={`/movie/${movie.imdbID}`}
+        >
+          <MovieCard movie={movie} />
+        </Link>
+      ));
     }
   };
 
@@ -66,6 +50,16 @@ const MovieList = ({
         apiStatus={apiStatus}
       />
       <div className={`${rootClassName}__container`}>{getMovieLists()} </div>
+      <div className={`${rootClassName}__pagination`}>
+        <Pagination
+          count={parseInt(paginationCount, 10)}
+          variant="outlined"
+          shape="rounded"
+          size="large"
+          className={`${rootClassName}__pagination-root`}
+          onChange={(...args) => setPage(args[1])}
+        />
+      </div>
     </div>
   );
 };
