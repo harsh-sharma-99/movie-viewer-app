@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useCallback, memo } from "react";
-import "./global.scss";
 import MovieList from "./components/movieList";
 import { Routes, Route } from "react-router-dom";
 import MovieInfoCard from "./components/movieInfoCard";
-import Header from "./components/header";
 import { fetchData } from "./services/index";
 import useDebounce from "./hooks/useDebounce";
 import { INITIAL_SEARCH_VALUE } from "./constants";
-
-const rootClassName = "movie-root-layout";
+import Layout from "./components/layout/index";
 
 function App() {
   const [data, setData] = useState("");
@@ -37,9 +34,7 @@ function App() {
   }, [debouncedVal, getSearchData, page]);
 
   return (
-    <div className={rootClassName}>
-      <Header />
-
+    <Layout>
       <Routes>
         <Route
           path="/"
@@ -56,7 +51,7 @@ function App() {
         ></Route>
         <Route path="/movie/:id" element={<MovieInfoCard />}></Route>
       </Routes>
-    </div>
+    </Layout>
   );
 }
 

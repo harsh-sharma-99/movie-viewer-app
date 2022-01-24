@@ -24,7 +24,6 @@ const MovieInfoCard = () => {
   useEffect(() => {
     fetchData();
   }, [id, fetchData]);
-  console.log(id);
   return (
     <div className={rootClassName}>
       {data ? (
