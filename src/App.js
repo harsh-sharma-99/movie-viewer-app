@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import "./global.scss";
 import MovieList from "./components/movieList";
 import { Routes, Route } from "react-router-dom";
@@ -60,4 +60,4 @@ function App() {
   );
 }
 
-export default App;
+export default memo(App);

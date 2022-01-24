@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import "./styles.scss";
 import MovieCard from "./../movieCard/index";
 import { Link } from "react-router-dom";
@@ -53,7 +53,6 @@ const MovieList = ({
           count={parseInt(paginationCount, 10)}
           variant="outlined"
           shape="rounded"
-          size="large"
           className={`${rootClassName}__pagination-root`}
           onChange={(...args) => setPage(args[1])}
         />
@@ -62,4 +61,4 @@ const MovieList = ({
   );
 };
 
-export default MovieList;
+export default memo(MovieList);
